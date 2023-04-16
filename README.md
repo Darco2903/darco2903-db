@@ -4,16 +4,6 @@
 
 ---
 
-## Installation
-
-1. Install the module:
-
-```bash
-npm install darco2903-db
-```
-
----
-
 ## Configuration
 
 1. Create a `config.json` file in the root directory of your project that contains the following information:
