@@ -1,11 +1,11 @@
 {
     "name": "darco2903-db",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Darco2903 DataBase Node.js module",
     "main": "index.js",
     "scripts": {
         "test": "node test.js",
-        "ts-config": "npx -p typescript tsc ./index.js --declaration --allowJs --emitDeclarationOnly"
+        "build-ts": "npx -p typescript tsc ./index.js --declaration --allowJs --emitDeclarationOnly"
     },
     "repository": {
         "type": "git",

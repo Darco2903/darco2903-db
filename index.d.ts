@@ -36,13 +36,13 @@ declare class DataBase {
     insertDatas(datas: any[], repoName: string): Promise<number[]>;
     /**
      * @description Update document by id(s).
-     * @param {Number|Number[]} id Can be array or single id.
+     * @param {Number|Number[]} ids Can be array or single id.
      * @param {Object} data Data to update document(s) with.
      * @param {string} repoName The name of the table.
      * @returns {Promise<Number>} Returns the number of documents updated.
      * @throws {Error}
      */
-    updateDataByIds(ids: any, data: any, repoName: string): Promise<number>;
+    updateDataByIds(ids: number | number[], data: any, repoName: string): Promise<number>;
     /**
      * @description Delete document by id(s).
      * @param {Number|Number[]} ids Can be array or single id.

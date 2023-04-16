@@ -93,8 +93,7 @@ class DataBase {
             const id = res.identifiers[0]?.id;
             return Promise.resolve(id);
         } catch (error) {
-            console.error(error);
-            return Promise.reject();
+            return Promise.reject(error);
         }
     }
 
@@ -115,14 +114,13 @@ class DataBase {
             }
             return Promise.resolve(ids);
         } catch (error) {
-            console.error(error);
-            return Promise.reject();
+            return Promise.reject(error);
         }
     }
 
     /**
      * @description Update document by id(s).
-     * @param {Number|Number[]} id Can be array or single id.
+     * @param {Number|Number[]} ids Can be array or single id.
      * @param {Object} data Data to update document(s) with.
      * @param {string} repoName The name of the table.
      * @returns {Promise<Number>} Returns the number of documents updated.
@@ -137,8 +135,7 @@ class DataBase {
             const res = await repo.update(ids, data);
             return Promise.resolve(res.affected);
         } catch (error) {
-            console.error(error);
-            return Promise.reject();
+            return Promise.reject(error);
         }
     }
 
@@ -158,8 +155,7 @@ class DataBase {
             const res = await repo.delete(ids);
             return Promise.resolve(res.affected);
         } catch (error) {
-            console.error(error);
-            return Promise.reject();
+            return Promise.reject(error);
         }
     }
 
@@ -181,8 +177,7 @@ class DataBase {
             }
             return Promise.resolve(res);
         } catch (error) {
-            console.error(error);
-            return Promise.reject();
+            return Promise.reject(error);
         }
     }
 
@@ -202,8 +197,7 @@ class DataBase {
             }
             return Promise.resolve(res);
         } catch (error) {
-            console.error(error);
-            return Promise.reject();
+            return Promise.reject(error);
         }
     }
 
@@ -216,14 +210,13 @@ class DataBase {
     async fetchAllRepo(repoName) {
         try {
             const repo = this.#dataSource.getRepository(repoName);
-            const res = await repo.find();
+            let res = await repo.find();
             if (res.length <= 0) {
                 res = null;
             }
             return Promise.resolve(res);
         } catch (error) {
-            console.error(error);
-            return Promise.reject();
+            return Promise.reject(error);
         }
     }
 
@@ -244,14 +237,13 @@ class DataBase {
             fieldNames.forEach((fieldName) => {
                 fields[fieldName] = true;
             });
-            const res = await repo.find({ select: fields });
+            let res = await repo.find({ select: fields });
             if (res.length <= 0) {
                 res = null;
             }
             return Promise.resolve(res);
         } catch (error) {
-            console.error(error);
-            return Promise.reject();
+            return Promise.reject(error);
         }
     }
 
@@ -266,14 +258,13 @@ class DataBase {
     async fetchAllByValue(fieldName, fieldValue, repoName) {
         try {
             const repo = this.#dataSource.getRepository(repoName);
-            const res = await repo.findBy({ [fieldName]: orm.Equal(fieldValue) });
+            let res = await repo.findBy({ [fieldName]: orm.Equal(fieldValue) });
             if (res.length <= 0) {
                 res = null;
             }
             return Promise.resolve(res);
         } catch (error) {
-            console.error(error);
-            return Promise.reject();
+            return Promise.reject(error);
         }
     }
 }
