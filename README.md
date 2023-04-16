@@ -1,6 +1,8 @@
 # database-module
 
-**DataBase Node.js module**
+## DataBase Node.js module
+
+---
 
 ## Configuration
 
@@ -41,10 +43,12 @@ const templateTable = orm.EntitySchema({
 module.exports = [templateTable, ...];
 ```
 
+---
+
 ## Usage
 
 ```js
-const DataBase = require("./DataBase");
+const DataBase = require("darco2903-db");
 const entities = require("./entities");
 
 const { type, host, port, username, password, database } = require("./config.json");
@@ -61,3 +65,22 @@ db.connect()
 
 module.exports = db;
 ```
+
+---
+
+## Methods
+
+| Method           | Description                                 |
+| ---------------- | ------------------------------------------- |
+| connect          | Init connection                             |
+| disconnect       | Close connection                            |
+| isConnected      | Check connection is established             |
+| insertData       | Insert document into table                  |
+| insertDatas      | Insert multiple documents into table        |
+| updateDataByIds  | Update document by id(s)                    |
+| deleteByIds      | Delete document by id(s)                    |
+| fetchById        | Fetch document by id                        |
+| fetchByIds       | Fetch documents by ids                      |
+| fetchAllRepo     | Fetch all documents by repository name      |
+| fetchAllByFields | Select fields from documents by field names |
+| fetchAllByValue  | Fetch all documents by field value          |
