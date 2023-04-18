@@ -255,7 +255,7 @@ class DataBase {
      * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
      * @throws {Error}
      */
-    async fetchAllByValue(fieldName, fieldValue, repoName) {
+    async selectByValue(fieldName, fieldValue, repoName) {
         try {
             const repo = this.#dataSource.getRepository(repoName);
             let res = await repo.findBy({ [fieldName]: orm.Equal(fieldValue) });

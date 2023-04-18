@@ -16,7 +16,7 @@ npm install darco2903-db
 
 ## Configuration
 
-1. Create a `config.json` file in the root directory of your project that contains the following information:
+1. Create a `config.json` file that contains the following information:
 
 ```json
 {
@@ -50,7 +50,10 @@ const templateTable = orm.EntitySchema({
     },
 });
 
-module.exports = [templateTable, ...];
+module.exports = [
+    templateTable,
+    ...
+];
 ```
 
 ---
@@ -67,30 +70,28 @@ const db = new DataBase(type, host, port, username, password, database, entities
 
 db.connect()
     .then(() => {
-        console.log("Connected to database");
+        console.log("Connected to database !");
     })
     .catch((error) => {
         console.log(error);
     });
-
-module.exports = db;
 ```
 
 ---
 
 ## Methods
 
-| Method           | Description                                 |
-| ---------------- | ------------------------------------------- |
-| connect          | Init connection                             |
-| disconnect       | Close connection                            |
-| isConnected      | Check connection is established             |
-| insertData       | Insert document into table                  |
-| insertDatas      | Insert multiple documents into table        |
-| updateDataByIds  | Update document by id(s)                    |
-| deleteByIds      | Delete document by id(s)                    |
-| fetchById        | Fetch document by id                        |
-| fetchByIds       | Fetch documents by ids                      |
-| fetchAllRepo     | Fetch all documents by repository name      |
-| fetchAllByFields | Select fields from documents by field names |
-| fetchAllByValue  | Fetch all documents by field value          |
+| Method           | Description                            |
+| ---------------- | -------------------------------------- |
+| connect          | Init connection                        |
+| disconnect       | Close connection                       |
+| isConnected      | Check if connection is established     |
+| insertData       | Insert document into table             |
+| insertDatas      | Insert multiple documents into table   |
+| updateDataByIds  | Update document(s) by id(s)            |
+| deleteByIds      | Delete document(s) by id(s)            |
+| fetchById        | Fetch document by id                   |
+| fetchByIds       | Fetch multiple documents by ids        |
+| fetchAllRepo     | Fetch all documents by repository name |
+| fetchAllByFields | Fetch document fields                  |
+| selectByValue    | Select documents by value              |
