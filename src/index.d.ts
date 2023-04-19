@@ -25,7 +25,7 @@ declare class DataBase {
      * @returns {Promise<Number>} Returns inserted document id.
      * @throws {Error}
      */
-    insertData(data: any, repoName: string): Promise<number>;
+    insertData(data: Object, repoName: string): Promise<number>;
     /**
      * @description Insert multiple documents into table.
      * @param {Object[]} datas Documents pulled down from table.
@@ -33,7 +33,7 @@ declare class DataBase {
      * @returns {Promise<Number[]>} Returns inserted document ids.
      * @throws {Error}
      */
-    insertDatas(datas: any[], repoName: string): Promise<number[]>;
+    insertDatas(datas: Object[], repoName: string): Promise<number[]>;
     /**
      * @description Update document by id(s).
      * @param {Number|Number[]} ids Can be array or single id.
@@ -42,7 +42,7 @@ declare class DataBase {
      * @returns {Promise<Number>} Returns the number of documents updated.
      * @throws {Error}
      */
-    updateDataByIds(ids: number | number[], data: any, repoName: string): Promise<number>;
+    updateDataByIds(ids: number | number[], data: Object, repoName: string): Promise<number>;
     /**
      * @description Delete document by id(s).
      * @param {Number|Number[]} ids Can be array or single id.
@@ -90,7 +90,7 @@ declare class DataBase {
      * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
      * @throws {Error}
      */
-    fetchAllByValue(fieldName: string, fieldValue: any, repoName: string): Promise<orm.ObjectLiteral[]>;
+    selectByValue(fieldName: string, fieldValue: any, repoName: string): Promise<orm.ObjectLiteral[]>;
     #private;
 }
 import orm = require("typeorm");
