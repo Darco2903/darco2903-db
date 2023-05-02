@@ -1,12 +1,9 @@
 {
     "name": "darco2903-db",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "description": "Darco2903 DataBase Node.js module",
     "main": "src/index.js",
-    "scripts": {
-        "test": "node test/test.js",
-        "build-ts": "rm -s ./src/*d.ts && tsc"
-    },
+    "scripts": {},
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Darco2903/database-module.git"
@@ -20,8 +17,5 @@
     "dependencies": {
         "mysql": "^2.18.1",
         "typeorm": "^0.3.15"
-    },
-    "devDependencies": {
-        "darco2903-os-command-kit": "^1.1.0"
     }
 }

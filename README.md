@@ -45,15 +45,16 @@ const templateTable = orm.EntitySchema({
         name: {
             type: "text",
             nullable: true,
+            ...
         },
         ...
     },
 });
 
-module.exports = [
+module.exports = {
     templateTable,
     ...
-];
+};
 ```
 
 ---
@@ -61,12 +62,12 @@ module.exports = [
 ## Usage
 
 ```js
-const DataBase = require("darco2903-db");
-const entities = require("./entities");
+const { DataBase } = require("darco2903-db");
+const tables = require("./tables.js");
 
 const { type, host, port, username, password, database } = require("./config.json");
 
-const db = new DataBase(type, host, port, username, password, database, entities);
+const db = new DataBase(type, host, port, username, password, database, tables);
 
 db.connect()
     .then(() => {

@@ -1,6 +1,13 @@
 const orm = require("typeorm");
 
 class DataBase {
+    /** @type {boolean} */
+    #connected;
+    /** @type {boolean} */
+    #initConn;
+    /** @type {orm.DataSource} */
+    #dataSource;
+
     /**
      * @description Create a database instance.
      * @param {orm.DatabaseType} type
@@ -9,15 +16,10 @@ class DataBase {
      * @param {string} username
      * @param {string} password
      * @param {string} database
-     * @param {orm.EntitySchema[]} entities
+     * @param {object} tables
      * @returns {DataBase}
      */
-
-    #connected;
-    #initConn;
-    #dataSource;
-
-    constructor(type, host, port, username, password, database, entities) {
+    constructor(type, host, port, username, password, database, tables) {
         this.#connected = false;
         this.#initConn = false;
         this.#dataSource = new orm.DataSource({
@@ -27,7 +29,7 @@ class DataBase {
             username,
             password,
             database,
-            entities,
+            entities: tables,
             cache: true,
         });
     }
@@ -269,4 +271,6 @@ class DataBase {
     }
 }
 
-module.exports = DataBase;
+module.exports = {
+    DataBase,
+};
