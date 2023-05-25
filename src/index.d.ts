@@ -1,16 +1,39 @@
 declare module "darco2903-db" {
     import orm from "typeorm";
 
+    type DataBaseConfig = {
+        type: orm.DatabaseType;
+        host: string;
+        port?: number;
+        user: string;
+        password?: string;
+        database: string;
+        tables?: orm.EntitySchema[];
+        syncronize?: boolean;
+    };
+
+    declare class Entity extends orm.EntitySchema {}
+
     declare class DataBase {
-        constructor(
-            type: orm.DatabaseType,
-            host: string,
-            port: number,
-            username: string,
-            password: string,
-            database: string,
-            tables: { [key: string]: orm.EntitySchema }
-        );
+        /**
+         * @description Create a new instance of DataBase.
+         *
+         * @example
+         * const db = new DataBase({
+         *     type: "mysql",
+         *     host: "localhost",
+         *     port: 3306,
+         *     user: "root",
+         *     password: "myPassword",
+         *     database: "my_db",
+         * })
+         */
+        constructor(config: DataBaseConfig): DataBase;
+
+        get host(): string;
+        get port(): number;
+        get user(): string;
+        get database(): string;
 
         /**
          * @description Connect to database.
@@ -112,6 +135,6 @@ declare module "darco2903-db" {
          * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
          * @throws {Error}
          */
-        selectByValue(fieldName: string, fieldValue: any, repoName: string): Promise<orm.ObjectLiteral[]>;
+        fetchByValue(fieldName: string, fieldValue: any, repoName: string): Promise<orm.ObjectLiteral[]>;
     }
 }

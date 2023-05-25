@@ -2,9 +2,9 @@ const orm = require("typeorm");
 
 class DataBase {
     /** @type {boolean} */
-    #connected;
-    /** @type {boolean} */
     #initConn;
+    /** @type {boolean} */
+    #syncronize;
     /** @type {orm.DataSource} */
     #dataSource;
 
@@ -12,26 +12,58 @@ class DataBase {
      * @description Create a database instance.
      * @param {orm.DatabaseType} type
      * @param {string} host
-     * @param {Number} port
-     * @param {string} username
-     * @param {string} password
+     * @param {Number} [port]
+     * @param {string} user
+     * @param {string} [password]
      * @param {string} database
-     * @param {object} tables
+     * @param {orm.EntitySchema[]} tables
+     * @param {boolean} [synchronize]
      * @returns {DataBase}
      */
-    constructor(type, host, port, username, password, database, tables) {
-        this.#connected = false;
+    constructor({ type, host, port = 3306, user, password = "", database, tables, synchronize = false }) {
+        if (!type) {
+            throw new Error("Database type is required");
+        } else if (!host) {
+            throw new Error("Database host is required");
+        } else if (!user) {
+            throw new Error("Database user is required");
+        } else if (!database) {
+            throw new Error("Database name is required");
+        } else if (!tables) {
+            throw new Error("Database tables are required");
+        }
         this.#initConn = false;
         this.#dataSource = new orm.DataSource({
             type,
-            host,
+            host: host === "localhost" ? "127.0.0.1" : host,
             port,
-            username,
+            username: user,
             password,
             database,
             entities: tables,
+            synchronize,
             cache: true,
         });
+    }
+
+    get host() {
+        return this.#dataSource.options.host;
+    }
+
+    get port() {
+        return this.#dataSource.options.port;
+    }
+
+    get user() {
+        return this.#dataSource.options.username;
+    }
+
+    get database() {
+        return this.#dataSource.options.database;
+    }
+
+    get isConnected() {
+        return this.#dataSource.isInitialized;
     }
 
     /**
@@ -41,13 +73,14 @@ class DataBase {
      */
     async connect() {
         try {
-            if (this.#connected || this.#initConn) {
+            if (this.#dataSource.isInitialized || this.#initConn) {
                 throw new Error("Already connected to database");
             }
             this.#initConn = true;
             await this.#dataSource.initialize();
-            await this.#dataSource.synchronize();
-            this.#connected = true;
+            if (this.#syncronize) {
+                await this.#dataSource.synchronize();
+            }
             return Promise.resolve();
         } catch (error) {
             this.#initConn = false;
@@ -62,23 +95,14 @@ class DataBase {
      */
     async disconnect() {
         try {
-            if (!this.#connected) {
+            if (!this.#dataSource.isInitialized) {
                 throw new Error("Not connected to database");
             }
             await this.#dataSource.destroy();
-            this.#connected = false;
             return Promise.resolve();
         } catch (error) {
             return Promise.reject(error);
         }
-    }
-
-    /**
-     * @description Check if database connection is established.
-     * @returns {boolean}
-     */
-    isConnected() {
-        return this.#connected;
     }
 
     /**
@@ -257,7 +281,7 @@ class DataBase {
      * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
      * @throws {Error}
      */
-    async selectByValue(fieldName, fieldValue, repoName) {
+    async fetchByValue(fieldName, fieldValue, repoName) {
         try {
             const repo = this.#dataSource.getRepository(repoName);
             let res = await repo.findBy({ [fieldName]: orm.Equal(fieldValue) });
@@ -273,4 +297,5 @@ class DataBase {
 
 module.exports = {
     DataBase,
+    Entity: orm.EntitySchema,
 };
