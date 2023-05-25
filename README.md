@@ -26,7 +26,7 @@ npm install darco2903-db
     "user": "DB_USERNAME",
     "password": "DB_PASSWORD",
     "database": "DB_NAME",
-    "syncronize": "true/false" // syncronize tables with database
+    "synchronize": "true/false" // synchronize tables with database
 }
 ```
 
@@ -67,7 +67,7 @@ const { DataBase } = require("darco2903-db");
 const tables = require("./tables.js");
 const { type, host, port, user, password, database } = require("./config.json");
 
-const db = new DataBase({ type, host, port, user, password, database, tables, syncronize });
+const db = new DataBase({ type, host, port, user, password, database, tables, synchronize });
 
 db.connect()
     .then(() => {
