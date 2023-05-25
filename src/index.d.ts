@@ -9,7 +9,7 @@ declare module "darco2903-db" {
         password?: string;
         database: string;
         tables?: orm.EntitySchema[];
-        syncronize?: boolean;
+        synchronize?: boolean;
     };
 
     declare class Entity extends orm.EntitySchema {}
@@ -36,6 +36,12 @@ declare module "darco2903-db" {
         get database(): string;
 
         /**
+         * @description Check if database connection is established.
+         * @returns {boolean}
+         */
+        get isConnected(): boolean;
+
+        /**
          * @description Connect to database.
          * @returns {Promise<void>}
          * @throws {Error}
@@ -48,12 +54,6 @@ declare module "darco2903-db" {
          * @throws {Error}
          */
         disconnect(): Promise<void>;
-
-        /**
-         * @description Check if database connection is established.
-         * @returns {boolean}
-         */
-        isConnected(): boolean;
 
         /**
          * @description Insert document into table.

@@ -23,18 +23,19 @@ npm install darco2903-db
     "type": "DB_TYPE",
     "host": "HOST_NAME",
     "port": "PORT_NUMBER",
-    "username": "DB_USERNAME",
+    "user": "DB_USERNAME",
     "password": "DB_PASSWORD",
-    "database": "DB_NAME"
+    "database": "DB_NAME",
+    "syncronize": "true/false" // syncronize tables with database
 }
 ```
 
 2. Create a `entities.js` file from the example below:
 
 ```js
-const orm = require("typeorm");
+const {Entity} = require("darco2903-db");
 
-const templateTable = orm.EntitySchema({
+const sampleTable = Entity({
     name: "template_table",
     columns: {
         id: {
@@ -52,7 +53,7 @@ const templateTable = orm.EntitySchema({
 });
 
 module.exports = {
-    templateTable,
+    sampleTable,
     ...
 };
 ```
@@ -64,10 +65,9 @@ module.exports = {
 ```js
 const { DataBase } = require("darco2903-db");
 const tables = require("./tables.js");
+const { type, host, port, user, password, database } = require("./config.json");
 
-const { type, host, port, username, password, database } = require("./config.json");
-
-const db = new DataBase(type, host, port, username, password, database, tables);
+const db = new DataBase({ type, host, port, user, password, database, tables, syncronize });
 
 db.connect()
     .then(() => {
@@ -86,7 +86,6 @@ db.connect()
 | ---------------- | -------------------------------------- |
 | connect          | Init connection                        |
 | disconnect       | Close connection                       |
-| isConnected      | Check if connection is established     |
 | insertData       | Insert document into table             |
 | insertDatas      | Insert multiple documents into table   |
 | updateDataByIds  | Update document(s) by id(s)            |
@@ -95,4 +94,14 @@ db.connect()
 | fetchByIds       | Fetch multiple documents by ids        |
 | fetchAllRepo     | Fetch all documents by repository name |
 | fetchAllByFields | Fetch document fields                  |
-| selectByValue    | Select documents by value              |
+| fetchByValue     | Fetch documents by value               |
+
+## Attributes
+
+| Attribute   | Description       |
+| ----------- | ----------------- |
+| isConnected | Connection status |
+| host        | Host name         |
+| port        | Port number       |
+| user        | User name         |
+| database    | Database name     |

@@ -41,7 +41,7 @@ class DataBase {
             password,
             database,
             entities: tables,
-            synchronize,
+            synchronize: typeof synchronize === "string" ? synchronize === "true" : synchronize,
             cache: true,
         });
     }
