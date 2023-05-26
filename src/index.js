@@ -1,12 +1,13 @@
 const orm = require("typeorm");
+const EventEmitter = require("events");
 
 class DataBase {
-    /** @type {boolean} */
-    #initConn;
-    /** @type {boolean} */
-    #syncronize;
     /** @type {orm.DataSource} */
     #dataSource;
+    /** @type {EventEmitter} */
+    #eventEmitter;
+    /** @type {boolean} */
+    #initConn;
 
     /**
      * @description Create a database instance.
@@ -44,6 +45,10 @@ class DataBase {
             synchronize: typeof synchronize === "string" ? synchronize === "true" : synchronize,
             cache: true,
         });
+        this.#eventEmitter = new EventEmitter();
+        this.on = this.#eventEmitter.on.bind(this.#eventEmitter);
+        this.once = this.#eventEmitter.once.bind(this.#eventEmitter);
+        this.off = this.#eventEmitter.off.bind(this.#eventEmitter);
     }
 
     get host() {
@@ -78,9 +83,7 @@ class DataBase {
             }
             this.#initConn = true;
             await this.#dataSource.initialize();
-            if (this.#syncronize) {
-                await this.#dataSource.synchronize();
-            }
+            this.#eventEmitter.emit("connect");
             return Promise.resolve();
         } catch (error) {
             return Promise.reject(error);
@@ -100,6 +103,7 @@ class DataBase {
                 throw new Error("Not connected to database");
             }
             await this.#dataSource.destroy();
+            this.#eventEmitter.emit("disconnect");
             return Promise.resolve();
         } catch (error) {
             return Promise.reject(error);

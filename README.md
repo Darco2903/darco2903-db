@@ -2,7 +2,11 @@
 
 ## DataBase Node.js module
 
----
+## Information
+
+This module uses [TypeORM](https://typeorm.io/) to ensure the connection to the database.
+
+The Table class is a wrapper of the TypeORM [EntitySchema](https://typeorm.io/usage-with-javascript#entitycategoryjs) class.
 
 ## Installation
 
@@ -22,29 +26,30 @@ npm install darco2903-db
 {
     "type": "DB_TYPE",
     "host": "HOST_NAME",
-    "port": "PORT_NUMBER",
+    "port": "PORT_NUMBER", // optional (default: 3306)
     "user": "DB_USERNAME",
-    "password": "DB_PASSWORD",
+    "password": "DB_PASSWORD", // optional
     "database": "DB_NAME",
-    "synchronize": "true/false" // synchronize tables with database
+    "synchronize": true|false // optional (default: false) - synchronize tables with database on connection
 }
 ```
 
-2. Create a `entities.js` file from the example below:
+2. Create a `tables.js` file from the example below:
 
 ```js
-const {Entity} = require("darco2903-db");
+const { Table } = require("darco2903-db");
 
-const sampleTable = Entity({
-    name: "template_table",
+const sampleTable = Table({
+    name: "sample_table",
     columns: {
         id: {
-            primary: true,
             type: "int",
+            primary: true,
             generated: true,
         },
         name: {
-            type: "text",
+            type: "varchar",
+            length: 32,
             nullable: true,
             ...
         },
@@ -64,8 +69,8 @@ module.exports = {
 
 ```js
 const { DataBase } = require("darco2903-db");
+const { type, host, port, user, password, database, synchronize } = require("./config.json");
 const tables = require("./tables.js");
-const { type, host, port, user, password, database } = require("./config.json");
 
 const db = new DataBase({ type, host, port, user, password, database, tables, synchronize });
 
@@ -84,6 +89,9 @@ db.connect()
 
 | Method           | Description                            |
 | ---------------- | -------------------------------------- |
+| on               | Listen to event                        |
+| once             | Listen to event once                   |
+| off              | Stop listening to event                |
 | connect          | Init connection                        |
 | disconnect       | Close connection                       |
 | insertData       | Insert document into table             |
@@ -105,3 +113,10 @@ db.connect()
 | port        | Port number       |
 | user        | User name         |
 | database    | Database name     |
+
+## Events
+
+| Event      | Description                |
+| ---------- | -------------------------- |
+| connect    | Connected to database      |
+| disconnect | Disconnected from database |

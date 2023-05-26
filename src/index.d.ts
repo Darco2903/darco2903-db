@@ -9,6 +9,9 @@ declare module "darco2903-db" {
         password?: string;
         database: string;
         tables: Table[];
+        /**
+         * @description If true, synchronize database tables with entities on connection.
+         */
         synchronize?: boolean;
     };
 
@@ -29,6 +32,14 @@ declare module "darco2903-db" {
          * })
          */
         constructor(config: DataBaseConfig): DataBase;
+
+        on(event: "connect", listener: () => void): void;
+        once(event: "connect", listener: () => void): void;
+        off(event: "connect", listener: () => void): void;
+
+        on(event: "disconnect", listener: () => void): void;
+        once(event: "disconnect", listener: () => void): void;
+        off(event: "disconnect", listener: () => void): void;
 
         get host(): string;
         get port(): number;
