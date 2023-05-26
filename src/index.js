@@ -83,8 +83,9 @@ class DataBase {
             }
             return Promise.resolve();
         } catch (error) {
-            this.#initConn = false;
             return Promise.reject(error);
+        } finally {
+            this.#initConn = false;
         }
     }
 
