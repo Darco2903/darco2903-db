@@ -298,5 +298,5 @@ class DataBase {
 
 module.exports = {
     DataBase,
-    Entity: orm.EntitySchema,
+    Table: orm.EntitySchema,
 };

@@ -8,11 +8,11 @@ declare module "darco2903-db" {
         user: string;
         password?: string;
         database: string;
-        tables?: orm.EntitySchema[];
+        tables: Table[];
         synchronize?: boolean;
     };
 
-    declare class Entity extends orm.EntitySchema {}
+    declare class Table extends orm.EntitySchema {}
 
     declare class DataBase {
         /**
