@@ -41,6 +41,9 @@ declare module "darco2903-db" {
         once(event: "disconnect", listener: () => void): void;
         off(event: "disconnect", listener: () => void): void;
 
+        static get instances(): { [x: string]: DataBase };
+
+        get name(): string;
         get host(): string;
         get port(): number;
         get user(): string;

@@ -8,6 +8,8 @@ class DataBase {
     #eventEmitter;
     /** @type {boolean} */
     #initConn;
+    /** @type {Object<string, DataBase>} */
+    static #instances = {};
 
     /**
      * @description Create a database instance.
@@ -45,10 +47,24 @@ class DataBase {
             synchronize: typeof synchronize === "string" ? synchronize === "true" : synchronize,
             cache: true,
         });
+
         this.#eventEmitter = new EventEmitter();
         this.on = this.#eventEmitter.on.bind(this.#eventEmitter);
         this.once = this.#eventEmitter.once.bind(this.#eventEmitter);
         this.off = this.#eventEmitter.off.bind(this.#eventEmitter);
+
+        if (!DataBase.#instances[this.name]) {
+            DataBase.#instances[this.name] = this;
+        }
+        return DataBase.#instances[this.name];
+    }
+
+    static get instances() {
+        return DataBase.#instances;
+    }
+
+    static set instances(value) {
+        DataBase.#asignToReadOnlyProperty("instances");
     }
 
     get host() {
@@ -65,6 +81,10 @@ class DataBase {
 
     get database() {
         return this.#dataSource.options.database;
+    }
+
+    get name() {
+        return `${this.host}:${this.port}/${this.database}`;
     }
 
     get isConnected() {
