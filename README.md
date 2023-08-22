@@ -108,13 +108,15 @@ db.connect()
 
 ## Attributes
 
-| Attribute   | Description       |
-| ----------- | ----------------- |
-| isConnected | Connection status |
-| host        | Host name         |
-| port        | Port number       |
-| user        | User name         |
-| database    | Database name     |
+| Attribute              | Description                        |
+| ---------------------- | ---------------------------------- |
+| isConnected            | Connection status                  |
+| host                   | Host name                          |
+| port                   | Port number                        |
+| user                   | User name                          |
+| database               | Database name                      |
+| name                   | Database key name                  |
+| **_static_** instances | Object with all DataBase instances |
 
 ## Events
 
