@@ -147,5 +147,23 @@ declare module "darco2903-db" {
          * @throws {Error}
          */
         fetchByValue(fieldName: string, fieldValue: any, repoName: string): Promise<orm.ObjectLiteral[]>;
+
+        /**
+         * @description Count documents by field value.
+         * @param {string} fieldName The name of the field.
+         * @param {any} fieldValue The value of that field.
+         * @param {string} repoName The reponame where to look.
+         * @returns {Promise<Number>} Returns the number of documents found.
+         * @throws {Error}
+         */
+        countByValue(fieldName: string, fieldValue: any, repoName: string): Promise<number>;
+
+        /**
+         * @description Get number of documents in table.
+         * @param {string} repoName The name of the table.
+         * @returns {Promise<Number>} Returns the number of documents in table.
+         * @throws {Error}
+         */
+        countAllRepo(repoName: string): Promise<number>;
     }
 }

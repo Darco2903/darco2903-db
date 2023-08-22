@@ -298,6 +298,40 @@ class DataBase {
             return Promise.reject(error);
         }
     }
+
+    /**
+     * @description Count documents by field value.
+     * @param {string} fieldName The name of the field.
+     * @param {any} fieldValue The value of that field.
+     * @param {string} repoName The reponame where to look.
+     * @returns {Promise<Number>} Returns the number of documents found.
+     * @throws {Error}
+     */
+    async countByValue(fieldName, fieldValue, repoName) {
+        try {
+            const repo = this.#dataSource.getRepository(repoName);
+            const res = await repo.count({ where: { [fieldName]: orm.Equal(fieldValue) } });
+            return Promise.resolve(res);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    /**
+     * @description Get number of documents in table.
+     * @param {string} repoName The name of the table.
+     * @returns {Promise<Number>} Returns the number of documents in table.
+     * @throws {Error}
+     */
+    async countAllRepo(repoName) {
+        try {
+            const repo = this.#dataSource.getRepository(repoName);
+            const res = await repo.count();
+            return Promise.resolve(res);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
 }
 
 module.exports = {

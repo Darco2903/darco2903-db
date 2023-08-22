@@ -103,6 +103,8 @@ db.connect()
 | fetchAllRepo     | Fetch all documents by repository name |
 | fetchAllByFields | Fetch document fields                  |
 | fetchByValue     | Fetch documents by value               |
+| countByValue     | Count documents by value               |
+| countAllRepo     | Count all documents by repository name |
 
 ## Attributes
 
