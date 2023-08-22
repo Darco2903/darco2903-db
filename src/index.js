@@ -59,6 +59,10 @@ class DataBase {
         return DataBase.#instances[this.name];
     }
 
+    static #asignToReadOnlyProperty(property) {
+        throw new Error(`Cannot assign to read only property '${property}' of object '#<DataBase>'`);
+    }
+
     static get instances() {
         return DataBase.#instances;
     }
@@ -71,24 +75,48 @@ class DataBase {
         return this.#dataSource.options.host;
     }
 
+    set host(value) {
+        DataBase.#asignToReadOnlyProperty("host");
+    }
+
     get port() {
         return this.#dataSource.options.port;
+    }
+
+    set port(value) {
+        DataBase.#asignToReadOnlyProperty("port");
     }
 
     get user() {
         return this.#dataSource.options.username;
     }
 
+    set user(value) {
+        DataBase.#asignToReadOnlyProperty("user");
+    }
+
     get database() {
         return this.#dataSource.options.database;
+    }
+
+    set database(value) {
+        DataBase.#asignToReadOnlyProperty("database");
     }
 
     get name() {
         return `${this.host}:${this.port}/${this.database}`;
     }
 
+    set name(value) {
+        DataBase.#asignToReadOnlyProperty("name");
+    }
+
     get isConnected() {
         return this.#dataSource.isInitialized;
+    }
+
+    set isConnected(value) {
+        DataBase.#asignToReadOnlyProperty("isConnected");
     }
 
     /**

@@ -41,6 +41,7 @@ declare module "darco2903-db" {
         once(event: "disconnect", listener: () => void): void;
         off(event: "disconnect", listener: () => void): void;
 
+        private static asignToReadOnlyProperty(property: string): void;
         static get instances(): { [x: string]: DataBase };
 
         get name(): string;
