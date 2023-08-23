@@ -61,14 +61,14 @@ declare module "darco2903-db" {
          * @returns {Promise<void>}
          * @throws {Error}
          */
-        connect(): Promise<void>;
+        async connect(): Promise<void>;
 
         /**
          * @description Disconnect from database.
          * @returns {Promise<void>}
          * @throws {Error}
          */
-        disconnect(): Promise<void>;
+        async disconnect(): Promise<void>;
 
         /**
          * @description Insert document into table.
@@ -77,7 +77,7 @@ declare module "darco2903-db" {
          * @returns {Promise<Number>} Returns inserted document id.
          * @throws {Error}
          */
-        insertData(data: Object, repoName: string): Promise<number>;
+        async insertData(data: Object, repoName: string): Promise<number>;
 
         /**
          * @description Insert multiple documents into table.
@@ -86,7 +86,7 @@ declare module "darco2903-db" {
          * @returns {Promise<Number[]>} Returns inserted document ids.
          * @throws {Error}
          */
-        insertDatas(datas: Object[], repoName: string): Promise<number[]>;
+        async insertDatas(datas: Object[], repoName: string): Promise<number[]>;
 
         /**
          * @description Update document by id(s).
@@ -96,7 +96,7 @@ declare module "darco2903-db" {
          * @returns {Promise<Number>} Returns the number of documents updated.
          * @throws {Error}
          */
-        updateDataByIds(ids: number | number[], data: Object, repoName: string): Promise<number>;
+        async updateDataByIds(ids: number | number[], data: Object, repoName: string): Promise<number>;
 
         /**
          * @description Delete document by id(s).
@@ -105,7 +105,7 @@ declare module "darco2903-db" {
          * @returns {Promise<Number>} Returns the number of documents deleted.
          * @throws {Error}
          */
-        deleteByIds(ids: number | number[], repoName: string): Promise<number>;
+        async deleteByIds(ids: number | number[], repoName: string): Promise<number>;
 
         /**
          * @description Fetch documents by id.
@@ -114,7 +114,7 @@ declare module "darco2903-db" {
          * @returns {Promise<orm.ObjectLiteral|undefined>} Returns document or undefined if not found.
          * @throws {Error}
          */
-        fetchById(id: number, repoName: string): Promise<orm.ObjectLiteral | undefined>;
+        async fetchById(id: number, repoName: string): Promise<orm.ObjectLiteral | undefined>;
 
         /**
          * @description Fetch documents by ids.
@@ -123,7 +123,7 @@ declare module "darco2903-db" {
          * @returns {Promise<orm.ObjectLiteral[]|undefined>} Returns documents or undefined if no documents found.
          * @throws {Error}
          */
-        fetchByIds(ids: number[], repoName: string): Promise<orm.ObjectLiteral[] | undefined>;
+        async fetchByIds(ids: number[], repoName: string): Promise<orm.ObjectLiteral[] | undefined>;
 
         /**
          * @description Fetch all documents by repository name.
@@ -131,7 +131,7 @@ declare module "darco2903-db" {
          * @returns {Promise<orm.ObjectLiteral[]|undefined>} Returns an array of document or undefined if no documents found.
          * @throws {Error}
          */
-        fetchAllRepo(repoName: string): Promise<orm.ObjectLiteral[] | undefined>;
+        async fetchAllRepo(repoName: string): Promise<orm.ObjectLiteral[] | undefined>;
 
         /**
          * @description Select fields from documents by field names.
@@ -140,7 +140,7 @@ declare module "darco2903-db" {
          * @returns {Promise<orm.ObjectLiteral[]|undefined>} Returns an array of Objects or undefined if no documents found.
          * @throws {Error}
          */
-        fetchAllByFields(fieldNames: string | string[], repoName: string): Promise<orm.ObjectLiteral[] | undefined>;
+        async fetchAllByFields(fieldNames: string | string[], repoName: string): Promise<orm.ObjectLiteral[] | undefined>;
 
         /**
          * @description Fetch all documents by field value.
@@ -150,7 +150,7 @@ declare module "darco2903-db" {
          * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
          * @throws {Error}
          */
-        fetchByValue(fieldName: string, fieldValue: any, repoName: string): Promise<orm.ObjectLiteral[]>;
+        async fetchByValue(fieldName: string, fieldValue: any, repoName: string): Promise<orm.ObjectLiteral[]>;
 
         /**
          * @description Count documents by field value.
@@ -160,7 +160,7 @@ declare module "darco2903-db" {
          * @returns {Promise<Number>} Returns the number of documents found.
          * @throws {Error}
          */
-        countByValue(fieldName: string, fieldValue: any, repoName: string): Promise<number>;
+        async countByValue(fieldName: string, fieldValue: any, repoName: string): Promise<number>;
 
         /**
          * @description Get number of documents in table.
@@ -168,7 +168,7 @@ declare module "darco2903-db" {
          * @returns {Promise<Number>} Returns the number of documents in table.
          * @throws {Error}
          */
-        countAllRepo(repoName: string): Promise<number>;
+        async countAllRepo(repoName: string): Promise<number>;
 
         /**
          * @description Fetch paginated documents by field value.
