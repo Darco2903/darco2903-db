@@ -380,6 +380,48 @@ class DataBase {
             return Promise.reject(error);
         }
     }
+
+    /**
+     * @description Fetch paginated documents by field value.
+     * @param {string} fieldName The name of the field.
+     * @param {any} fieldValue The value of that field.
+     * @param {Number} page The page number.
+     * @param {Number} limit The number of documents per page.
+     * @param {string} repoName The reponame where to look.
+     * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
+     * @throws {Error}
+     */
+    async fetchByValuePaginated(fieldName, fieldValue, page, limit, repoName) {
+        try {
+            const repo = this.#dataSource.getRepository(repoName);
+            const res = await repo.find({
+                where: { [fieldName]: orm.Equal(fieldValue) },
+                skip: page * limit,
+                take: limit,
+            });
+            return Promise.resolve(res);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    /**
+     * @description Fetch paginated documents.
+     * @param {Number} page The page number.
+     * @param {Number} limit The number of documents per page.
+     * @param {string} repoName The name of the table.
+     * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of documents.
+     * @throws {Error}
+     */
+    async fetchAllRepoPaginated(page, limit, repoName) {
+        try {
+            const repo = this.#dataSource.getRepository(repoName);
+            const res = await repo.find({ skip: page * limit, take: limit });
+            return Promise.resolve(res);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
 }
 
 module.exports = {

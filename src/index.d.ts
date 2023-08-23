@@ -169,5 +169,27 @@ declare module "darco2903-db" {
          * @throws {Error}
          */
         countAllRepo(repoName: string): Promise<number>;
+
+        /**
+         * @description Fetch paginated documents by field value.
+         * @param {string} fieldName The name of the field.
+         * @param {any} fieldValue The value of that field.
+         * @param {Number} page The page number.
+         * @param {Number} limit The number of documents per page.
+         * @param {string} repoName The reponame where to look.
+         * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
+         * @throws {Error}
+         */
+        async fetchByValuePaginated(fieldName: string, fieldValue: any, page: number, limit: number, repoName: string): Promise<orm.ObjectLiteral[]>;
+
+        /**
+         * @description Fetch paginated documents.
+         * @param {Number} page The page number.
+         * @param {Number} limit The number of documents per page.
+         * @param {string} repoName The name of the table.
+         * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of documents.
+         * @throws {Error}
+         */
+        async fetchAllRepoPaginated(page: number, limit: number, repoName: string): Promise<orm.ObjectLiteral[]>;
     }
 }

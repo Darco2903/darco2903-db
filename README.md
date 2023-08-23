@@ -87,24 +87,26 @@ db.connect()
 
 ## Methods
 
-| Method           | Description                            |
-| ---------------- | -------------------------------------- |
-| on               | Listen to event                        |
-| once             | Listen to event once                   |
-| off              | Stop listening to event                |
-| connect          | Init connection                        |
-| disconnect       | Close connection                       |
-| insertData       | Insert document into table             |
-| insertDatas      | Insert multiple documents into table   |
-| updateDataByIds  | Update document(s) by id(s)            |
-| deleteByIds      | Delete document(s) by id(s)            |
-| fetchById        | Fetch document by id                   |
-| fetchByIds       | Fetch multiple documents by ids        |
-| fetchAllRepo     | Fetch all documents by repository name |
-| fetchAllByFields | Fetch document fields                  |
-| fetchByValue     | Fetch documents by value               |
-| countByValue     | Count documents by value               |
-| countAllRepo     | Count all documents by repository name |
+| Method                | Description                                      |
+| --------------------- | ------------------------------------------------ |
+| on                    | Listen to event                                  |
+| once                  | Listen to event once                             |
+| off                   | Stop listening to event                          |
+| connect               | Init connection                                  |
+| disconnect            | Close connection                                 |
+| insertData            | Insert document into table                       |
+| insertDatas           | Insert multiple documents into table             |
+| updateDataByIds       | Update document(s) by id(s)                      |
+| deleteByIds           | Delete document(s) by id(s)                      |
+| fetchById             | Fetch document by id                             |
+| fetchByIds            | Fetch multiple documents by ids                  |
+| fetchAllRepo          | Fetch all documents by repository name           |
+| fetchAllByFields      | Fetch document fields                            |
+| fetchByValue          | Fetch documents by value                         |
+| countByValue          | Count documents by value                         |
+| countAllRepo          | Count all documents by repository name           |
+| fetchByValuePaginated | Fetch documents by value paginated               |
+| fetchAllRepoPaginated | Fetch all documents by repository name paginated |
 
 ## Attributes
 
