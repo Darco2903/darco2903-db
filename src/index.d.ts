@@ -123,7 +123,7 @@ declare module "darco2903-db" {
          * @returns {Promise<orm.ObjectLiteral[]|undefined>} Returns documents or undefined if no documents found.
          * @throws {Error}
          */
-        async fetchByIds(ids: number[], repoName: string): Promise<orm.ObjectLiteral[] | undefined>;
+        async fetchByIds(ids: number[], repoName: string): Promise<orm.ObjectLiteral[]>;
 
         /**
          * @description Fetch all documents by repository name.
@@ -131,7 +131,7 @@ declare module "darco2903-db" {
          * @returns {Promise<orm.ObjectLiteral[]|undefined>} Returns an array of document or undefined if no documents found.
          * @throws {Error}
          */
-        async fetchAllRepo(repoName: string): Promise<orm.ObjectLiteral[] | undefined>;
+        async fetchAllRepo(repoName: string): Promise<orm.ObjectLiteral[]>;
 
         /**
          * @description Select fields from documents by field names.
@@ -140,7 +140,7 @@ declare module "darco2903-db" {
          * @returns {Promise<orm.ObjectLiteral[]|undefined>} Returns an array of Objects or undefined if no documents found.
          * @throws {Error}
          */
-        async fetchAllByFields(fieldNames: string | string[], repoName: string): Promise<orm.ObjectLiteral[] | undefined>;
+        async fetchAllByFields(fieldNames: string | string[], repoName: string): Promise<orm.ObjectLiteral[]>;
 
         /**
          * @description Fetch all documents by field value.

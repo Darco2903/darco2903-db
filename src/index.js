@@ -188,9 +188,6 @@ class DataBase {
             const repo = this.#dataSource.getRepository(repoName);
             const res = await repo.insert(datas);
             let ids = res.identifiers.map((doc) => doc.id);
-            if (ids.length === 0) {
-                ids = null;
-            }
             return Promise.resolve(ids);
         } catch (error) {
             return Promise.reject(error);
@@ -248,12 +245,7 @@ class DataBase {
     async fetchById(id, repoName) {
         try {
             const repo = this.#dataSource.getRepository(repoName);
-            let res = await repo.findBy({ id: orm.Equal(id) });
-            if (res.length > 0) {
-                res = res[0];
-            } else {
-                res = null;
-            }
+            const res = (await repo.findBy({ id: orm.Equal(id) }))[0];
             return Promise.resolve(res);
         } catch (error) {
             return Promise.reject(error);
@@ -264,16 +256,13 @@ class DataBase {
      * @description Fetch documents by ids.
      * @param {Number[]} ids Array of ids.
      * @param {string} repoName The name of the table.
-     * @returns {Promise<orm.ObjectLiteral[]|undefined>} Returns documents or undefined if no documents found.
+     * @returns {Promise<orm.ObjectLiteral[]>} Returns documents or undefined if no documents found.
      * @throws {Error}
      */
     async fetchByIds(ids, repoName) {
         try {
             const repo = this.#dataSource.getRepository(repoName);
-            let res = await repo.findBy({ id: orm.In(ids) });
-            if (res.length === 0) {
-                res = null;
-            }
+            const res = await repo.findBy({ id: orm.In(ids) });
             return Promise.resolve(res);
         } catch (error) {
             return Promise.reject(error);
@@ -283,16 +272,13 @@ class DataBase {
     /**
      * @description Fetch all documents by repository name.
      * @param {string} repoName The name of the table.
-     * @returns {Promise<orm.ObjectLiteral[]|undefined>} Returns an array of document or undefined if no documents found.
+     * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of document or undefined if no documents found.
      * @throws {Error}
      */
     async fetchAllRepo(repoName) {
         try {
             const repo = this.#dataSource.getRepository(repoName);
-            let res = await repo.find();
-            if (res.length <= 0) {
-                res = null;
-            }
+            const res = await repo.find();
             return Promise.resolve(res);
         } catch (error) {
             return Promise.reject(error);
@@ -316,10 +302,7 @@ class DataBase {
             fieldNames.forEach((fieldName) => {
                 fields[fieldName] = true;
             });
-            let res = await repo.find({ select: fields });
-            if (res.length <= 0) {
-                res = null;
-            }
+            const res = await repo.find({ select: fields });
             return Promise.resolve(res);
         } catch (error) {
             return Promise.reject(error);
@@ -337,10 +320,7 @@ class DataBase {
     async fetchByValue(fieldName, fieldValue, repoName) {
         try {
             const repo = this.#dataSource.getRepository(repoName);
-            let res = await repo.findBy({ [fieldName]: orm.Equal(fieldValue) });
-            if (res.length <= 0) {
-                res = null;
-            }
+            const res = await repo.findBy({ [fieldName]: orm.Equal(fieldValue) });
             return Promise.resolve(res);
         } catch (error) {
             return Promise.reject(error);
