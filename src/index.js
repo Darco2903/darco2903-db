@@ -312,15 +312,16 @@ class DataBase {
     /**
      * @description Fetch all documents by field value.
      * @param {string} fieldName The name of the field.
-     * @param {any} fieldValue The value of that field.
+     * @param {any|any[]} fieldValues The value(s) of that field.
      * @param {string} repoName The reponame where to look.
      * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
      * @throws {Error}
      */
-    async fetchByValue(fieldName, fieldValue, repoName) {
+    async fetchByValues(fieldName, fieldValues, repoName) {
         try {
+            if (!Array.isArray(fieldValues)) fieldValues = [fieldValues];
             const repo = this.#dataSource.getRepository(repoName);
-            const res = await repo.findBy({ [fieldName]: orm.Equal(fieldValue) });
+            const res = await repo.findBy({ [fieldName]: orm.In(fieldValues) });
             return Promise.resolve(res);
         } catch (error) {
             return Promise.reject(error);
@@ -397,6 +398,23 @@ class DataBase {
         try {
             const repo = this.#dataSource.getRepository(repoName);
             const res = await repo.find({ skip: page * limit, take: limit });
+            return Promise.resolve(res);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    /**
+     * @description Fetch paginated documents by field value.
+     * @param {orm.FindManyOptions<orm.ObjectLiteral>} query The query to search for.
+     * @param {string} repoName The reponame where to look.
+     * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
+     * @throws {Error}
+     */
+    async customFetch(query, repoName) {
+        try {
+            const repo = this.#dataSource.getRepository(repoName);
+            const res = await repo.find(query);
             return Promise.resolve(res);
         } catch (error) {
             return Promise.reject(error);

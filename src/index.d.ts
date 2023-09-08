@@ -145,12 +145,12 @@ declare module "darco2903-db" {
         /**
          * @description Fetch all documents by field value.
          * @param {string} fieldName The name of the field.
-         * @param {any} fieldValue The value of that field.
+         * @param {any|any[]} fieldValues The value of that field.
          * @param {string} repoName The reponame where to look.
          * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
          * @throws {Error}
          */
-        async fetchByValue(fieldName: string, fieldValue: any, repoName: string): Promise<orm.ObjectLiteral[]>;
+        async fetchByValues(fieldName: string, fieldValues: any | any[], repoName: string): Promise<orm.ObjectLiteral[]>;
 
         /**
          * @description Count documents by field value.
@@ -191,5 +191,14 @@ declare module "darco2903-db" {
          * @throws {Error}
          */
         async fetchAllRepoPaginated(page: number, limit: number, repoName: string): Promise<orm.ObjectLiteral[]>;
+
+        /**
+         * @description Fetch paginated documents by field value.
+         * @param {orm.FindManyOptions<orm.ObjectLiteral>} query The query to search for.
+         * @param {string} repoName The reponame where to look.
+         * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
+         * @throws {Error}
+         */
+        async customFetch(query: orm.FindManyOptions<orm.ObjectLiteral>, repoName: string): Promise<orm.ObjectLiteral[]>;
     }
 }
