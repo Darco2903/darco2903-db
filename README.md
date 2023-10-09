@@ -1,6 +1,4 @@
-# database-module
-
-## DataBase Node.js module
+# Node.js DataBase module
 
 ## Information
 
@@ -10,8 +8,6 @@ The Table class is a wrapper of the TypeORM [EntitySchema](https://typeorm.io/us
 
 ## Installation
 
-1. Install the module:
-
 ```bash
 npm install darco2903-db
 ```
@@ -20,7 +16,7 @@ npm install darco2903-db
 
 ## Configuration
 
-1. Create a `config.json` file that contains the following information:
+Create a `config.json` file that contains the following information:
 
 ```json
 {
@@ -34,43 +30,31 @@ npm install darco2903-db
 }
 ```
 
-2. Create a `tables.js` file from the example below:
-
-```js
-const { Table } = require("darco2903-db");
-
-const sampleTable = Table({
-    name: "sample_table",
-    columns: {
-        id: {
-            type: "int",
-            primary: true,
-            generated: true,
-        },
-        name: {
-            type: "varchar",
-            length: 32,
-            nullable: true,
-            ...
-        },
-        ...
-    },
-});
-
-module.exports = {
-    sampleTable,
-    ...
-};
-```
-
----
-
 ## Usage
 
 ```js
-const { DataBase } = require("darco2903-db");
+const { DataBase, Table } = require("darco2903-db");
 const { type, host, port, user, password, database, synchronize } = require("./config.json");
-const tables = require("./tables.js");
+
+const tables = [
+    new Table({
+        name: "sample_table",
+        columns: {
+            id: {
+                type: "int",
+                primary: true,
+                generated: true,
+            },
+            name: {
+                type: "varchar",
+                length: 32,
+                nullable: true,
+                ...
+            },
+            ...
+        },
+    }),
+];
 
 const db = new DataBase({ type, host, port, user, password, database, tables, synchronize });
 
@@ -107,6 +91,7 @@ db.connect()
 | countAllRepo          | Count all documents by repository name           |
 | fetchByValuePaginated | Fetch documents by value paginated               |
 | fetchAllRepoPaginated | Fetch all documents by repository name paginated |
+| customFetch           | Custom fetch                                     |
 
 ## Attributes
 
