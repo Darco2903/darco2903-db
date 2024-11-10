@@ -1,4 +1,4 @@
-# Node.js DataBase module
+# Darco2903 Database Module
 
 ## Information
 
@@ -22,7 +22,7 @@ Create a `config.json` file that contains the following information:
 {
     "type": "DB_TYPE",
     "host": "HOST_NAME",
-    "port": "PORT_NUMBER", // optional (default: 3306)
+    "port": PORT_NUMBER, // optional (default: 3306)
     "user": "DB_USERNAME",
     "password": "DB_PASSWORD", // optional
     "database": "DB_NAME",

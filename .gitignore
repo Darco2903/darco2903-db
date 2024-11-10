@@ -1,2 +1,5 @@
-node_modules
-test
+node_modules/
+.vscode/
+
+# tarball file
+darco2903-db-*.tgz

@@ -1,19 +1,19 @@
 {
     "name": "darco2903-db",
-    "version": "1.9.1",
-    "description": "Darco2903 DataBase Node.js module",
-    "main": "src/index.js",
+    "version": "1.9.2",
+    "description": "Darco2903 DataBase Module",
+    "main": "index.js",
     "scripts": {},
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Darco2903/database-module.git"
+        "url": "git+https://github.com/Darco2903/darco2903-db.git"
     },
     "author": "Darco2903",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/Darco2903/database-module/issues"
+        "url": "https://github.com/Darco2903/darco2903-db/issues"
     },
-    "homepage": "https://github.com/Darco2903/database-module#readme",
+    "homepage": "https://github.com/Darco2903/darco2903-db#readme",
     "dependencies": {
         "typeorm": "^0.3.15"
     }

@@ -1,204 +1,130 @@
-declare module "darco2903-db" {
-    import orm from "typeorm";
+import orm, { EntitySchema } from "typeorm";
+import { InsertResult } from "./types";
 
-    type DataBaseConfig = {
-        type: orm.DatabaseType;
-        host: string;
-        port?: number;
-        user: string;
-        password?: string;
-        database: string;
-        tables: Table[];
-        /**
-         * @description If true, synchronize database tables with entities on connection.
-         */
-        synchronize?: boolean;
-    };
+export { EntitySchema as Table, orm };
 
-    declare class Table extends orm.EntitySchema {}
+type DataBaseConfig = {
+    type: orm.DatabaseType;
+    host: string;
+    port?: number;
+    user: string;
+    password?: string;
+    database: string;
+    tables: Table[];
+    /**
+     * @description If true, synchronize database tables with entities on connection.
+     */
+    synchronize?: boolean;
+};
 
-    declare class DataBase {
-        /**
-         * @description Create a new instance of DataBase.
-         *
-         * @example
-         * const db = new DataBase({
-         *     type: "mysql",
-         *     host: "localhost",
-         *     port: 3306,
-         *     user: "root",
-         *     password: "myPassword",
-         *     database: "my_db",
-         * })
-         */
-        constructor(config: DataBaseConfig): DataBase;
+type DBEvents = "connect" | "disconnect";
 
-        on(event: "connect", listener: () => void): void;
-        once(event: "connect", listener: () => void): void;
-        off(event: "connect", listener: () => void): void;
+export class DataBase {
+    static get all(): DataBase[];
+    static getByKey(name: string): DataBase;
 
-        on(event: "disconnect", listener: () => void): void;
-        once(event: "disconnect", listener: () => void): void;
-        off(event: "disconnect", listener: () => void): void;
+    /**
+     * @description Create a new instance of DataBase.
+     * @param {orm.DatabaseType} config.type The database type.
+     * @param {string} config.host The database host.
+     * @param {number} config.port The database port.
+     * @param {string} config.user The database user.
+     * @param {string} config.password The database password.
+     * @param {string} config.database The database name.
+     * @param {Table[]} config.tables The database tables.
+     * @param {boolean} config.synchronize If true, synchronize database tables with entities on connection.
+     *
+     * @example
+     * const db = new DataBase({
+     *     type: "mysql",
+     *     host: "localhost",
+     *     port: 3306,
+     *     user: "root",
+     *     password: "myPassword",
+     *     database: "my_db",
+     * })
+     */
+    constructor(config: DataBaseConfig): DataBase;
 
-        private static asignToReadOnlyProperty(property: string): void;
-        static get instances(): { [x: string]: DataBase };
+    get key(): string;
+    get name(): string;
+    get host(): string;
+    get port(): number;
+    get user(): string;
+    get database(): string;
+    get dataSource(): orm.DataSource;
 
-        get name(): string;
-        get host(): string;
-        get port(): number;
-        get user(): string;
-        get database(): string;
+    /**
+     * @description Check if database connection is established.
+     * @returns {boolean}
+     */
+    get isConnected(): boolean;
 
-        /**
-         * @description Check if database connection is established.
-         * @returns {boolean}
-         */
-        get isConnected(): boolean;
+    /**
+     * @description Connect to database.
+     * @returns {Promise<void>}
+     * @throws {Error}
+     */
+    async connect(): Promise<void>;
 
-        /**
-         * @description Connect to database.
-         * @returns {Promise<void>}
-         * @throws {Error}
-         */
-        async connect(): Promise<void>;
+    /**
+     * @description Disconnect from database.
+     * @returns {Promise<void>}
+     * @throws {Error}
+     */
+    async disconnect(): Promise<void>;
 
-        /**
-         * @description Disconnect from database.
-         * @returns {Promise<void>}
-         * @throws {Error}
-         */
-        async disconnect(): Promise<void>;
+    on(event: DBEvents, listener: () => void): void;
+    once(event: DBEvents, listener: () => void): void;
+    off(event: DBEvents, listener: () => void): void;
 
-        /**
-         * @description Insert document into table.
-         * @param {Object} data Document pulled down from table.
-         * @param {string} repoName The name of the table.
-         * @returns {Promise<Number>} Returns inserted document id.
-         * @throws {Error}
-         */
-        async insertData(data: Object, repoName: string): Promise<number>;
+    /**
+     * @description Get repository by name.
+     * @param {string} repoName The repository name.
+     */
+    getRepository(repoName: string): orm.Repository<orm.ObjectLiteral>;
 
-        /**
-         * @description Insert multiple documents into table.
-         * @param {Object[]} datas Documents pulled down from table.
-         * @param {string} repoName The name of the table.
-         * @returns {Promise<Number[]>} Returns inserted document ids.
-         * @throws {Error}
-         */
-        async insertDatas(datas: Object[], repoName: string): Promise<number[]>;
+    /**
+     * @description Fetch paginated documents by field value.
+     * @param {string} repoName The reponame where to look.
+     * @param {orm.FindManyOptions<orm.ObjectLiteral>} query The query to search for.
+     */
+    async find(repoName: string, query: orm.FindManyOptions<orm.ObjectLiteral>): Promise<orm.ObjectLiteral[]>;
 
-        /**
-         * @description Update document by id(s).
-         * @param {Number|Number[]} ids Can be array or single id.
-         * @param {Object} data Data to update document(s) with.
-         * @param {string} repoName The name of the table.
-         * @returns {Promise<Number>} Returns the number of documents updated.
-         * @throws {Error}
-         */
-        async updateDataByIds(ids: number | number[], data: Object, repoName: string): Promise<number>;
+    /**
+     * @description Fetch one document by field value.
+     * @param {string} repoName The reponame where to look.
+     * @param {orm.FindOneOptions<orm.ObjectLiteral>} query The query to search for.
+     */
+    async findOne(repoName: string, query: orm.FindOneOptions<orm.ObjectLiteral>): Promise<orm.ObjectLiteral | null>;
 
-        /**
-         * @description Delete document by id(s).
-         * @param {Number|Number[]} ids Can be array or single id.
-         * @param {string} repoName The name of the table.
-         * @returns {Promise<Number>} Returns the number of documents deleted.
-         * @throws {Error}
-         */
-        async deleteByIds(ids: number | number[], repoName: string): Promise<number>;
+    /**
+     * @description Insert a new document.
+     * @param {string} repoName The reponame where to insert.
+     * @param {orm.ObjectLiteral} query The query to insert.
+     */
+    // async insert(repoName: string, query: ObjectLiteral): Promise<orm.InsertResult>;
+    async insert(repoName: string, query: ObjectLiteral): Promise<InsertResult>;
 
-        /**
-         * @description Fetch documents by id.
-         * @param {Number} id The id of the document.
-         * @param {string} repoName The name of the table.
-         * @returns {Promise<orm.ObjectLiteral|undefined>} Returns document or undefined if not found.
-         * @throws {Error}
-         */
-        async fetchById(id: number, repoName: string): Promise<orm.ObjectLiteral | undefined>;
+    /**
+     * @description Update a document by field value.
+     * @param {string} repoName The reponame where to update.
+     * @param {orm.FindOptionsWhere<orm.ObjectLiteral>} query The query to search for.
+     * @param {orm.ObjectLiteral} data The data to update.
+     */
+    async update(repoName: string, query: orm.FindOptionsWhere<orm.ObjectLiteral>, data: orm.ObjectLiteral): Promise<orm.UpdateResult>;
 
-        /**
-         * @description Fetch documents by ids.
-         * @param {Number[]} ids Array of ids.
-         * @param {string} repoName The name of the table.
-         * @returns {Promise<orm.ObjectLiteral[]|undefined>} Returns documents or undefined if no documents found.
-         * @throws {Error}
-         */
-        async fetchByIds(ids: number[], repoName: string): Promise<orm.ObjectLiteral[]>;
+    /**
+     * @description Delete a document by field value.
+     * @param {string} repoName The reponame where to delete.
+     * @param {orm.FindOptionsWhere<orm.ObjectLiteral>} query The query to search for.
+     */
+    async delete(repoName: string, query: orm.FindOptionsWhere<orm.ObjectLiteral>): Promise<orm.DeleteResult>;
 
-        /**
-         * @description Fetch all documents by repository name.
-         * @param {string} repoName The name of the table.
-         * @returns {Promise<orm.ObjectLiteral[]|undefined>} Returns an array of document or undefined if no documents found.
-         * @throws {Error}
-         */
-        async fetchAllRepo(repoName: string): Promise<orm.ObjectLiteral[]>;
-
-        /**
-         * @description Select fields from documents by field names.
-         * @param {string|string[]} fieldNames
-         * @param {string} repoName
-         * @returns {Promise<orm.ObjectLiteral[]|undefined>} Returns an array of Objects or undefined if no documents found.
-         * @throws {Error}
-         */
-        async fetchAllByFields(fieldNames: string | string[], repoName: string): Promise<orm.ObjectLiteral[]>;
-
-        /**
-         * @description Fetch all documents by field value.
-         * @param {string} fieldName The name of the field.
-         * @param {any|any[]} fieldValues The value of that field.
-         * @param {string} repoName The reponame where to look.
-         * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
-         * @throws {Error}
-         */
-        async fetchByValues(fieldName: string, fieldValues: any | any[], repoName: string): Promise<orm.ObjectLiteral[]>;
-
-        /**
-         * @description Count documents by field value.
-         * @param {string} fieldName The name of the field.
-         * @param {any} fieldValue The value of that field.
-         * @param {string} repoName The reponame where to look.
-         * @returns {Promise<Number>} Returns the number of documents found.
-         * @throws {Error}
-         */
-        async countByValue(fieldName: string, fieldValue: any, repoName: string): Promise<number>;
-
-        /**
-         * @description Get number of documents in table.
-         * @param {string} repoName The name of the table.
-         * @returns {Promise<Number>} Returns the number of documents in table.
-         * @throws {Error}
-         */
-        async countAllRepo(repoName: string): Promise<number>;
-
-        /**
-         * @description Fetch paginated documents by field value.
-         * @param {string} fieldName The name of the field.
-         * @param {any} fieldValue The value of that field.
-         * @param {Number} page The page number.
-         * @param {Number} limit The number of documents per page.
-         * @param {string} repoName The reponame where to look.
-         * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
-         * @throws {Error}
-         */
-        async fetchByValuePaginated(fieldName: string, fieldValue: any, page: number, limit: number, repoName: string): Promise<orm.ObjectLiteral[]>;
-
-        /**
-         * @description Fetch paginated documents.
-         * @param {Number} page The page number.
-         * @param {Number} limit The number of documents per page.
-         * @param {string} repoName The name of the table.
-         * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of documents.
-         * @throws {Error}
-         */
-        async fetchAllRepoPaginated(page: number, limit: number, repoName: string): Promise<orm.ObjectLiteral[]>;
-
-        /**
-         * @description Fetch paginated documents by field value.
-         * @param {orm.FindManyOptions<orm.ObjectLiteral>} query The query to search for.
-         * @param {string} repoName The reponame where to look.
-         * @returns {Promise<orm.ObjectLiteral[]>} Returns an array of Objects.
-         * @throws {Error}
-         */
-        async customFetch(query: orm.FindManyOptions<orm.ObjectLiteral>, repoName: string): Promise<orm.ObjectLiteral[]>;
-    }
+    /**
+     * @description Count documents by field value.
+     * @param {string} repoName The reponame where to count.
+     * @param {orm.FindManyOptions<orm.ObjectLiteral>} query The query to search for.
+     */
+    async count(repoName: string, query: orm.FindManyOptions<orm.ObjectLiteral>): Promise<number>;
 }
