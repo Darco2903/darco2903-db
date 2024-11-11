@@ -1,5 +1,5 @@
-node_modules/
 .vscode/
+.gitattributes
 
 # tarballs
 darco2903-db-*.tgz
