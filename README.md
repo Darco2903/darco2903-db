@@ -58,52 +58,55 @@ const tables = [
 
 const db = new DataBase({ type, host, port, user, password, database, tables, synchronize });
 
-db.connect()
-    .then(() => {
-        console.log("Connected to database !");
-    })
-    .catch((error) => {
-        console.log(error);
+(async()=>{
+    await db.connect();
+
+    const rows = await db.find("sample_table", {
+        select: ["id", "name"],
+        where: {
+            name: "sample",
+        },
+        ...
     });
+
+    console.log(rows); // [{ id: 1, name: "sample" }, ...]
+
+    await db.disconnect();
+})();
 ```
 
 ---
 
 ## Methods
 
-| Method                | Description                                      |
-| --------------------- | ------------------------------------------------ |
-| on                    | Listen to event                                  |
-| once                  | Listen to event once                             |
-| off                   | Stop listening to event                          |
-| connect               | Init connection                                  |
-| disconnect            | Close connection                                 |
-| insertData            | Insert document into table                       |
-| insertDatas           | Insert multiple documents into table             |
-| updateDataByIds       | Update document(s) by id(s)                      |
-| deleteByIds           | Delete document(s) by id(s)                      |
-| fetchById             | Fetch document by id                             |
-| fetchByIds            | Fetch multiple documents by ids                  |
-| fetchAllRepo          | Fetch all documents by repository name           |
-| fetchAllByFields      | Fetch document fields                            |
-| fetchByValue          | Fetch documents by value                         |
-| countByValue          | Count documents by value                         |
-| countAllRepo          | Count all documents by repository name           |
-| fetchByValuePaginated | Fetch documents by value paginated               |
-| fetchAllRepoPaginated | Fetch all documents by repository name paginated |
-| customFetch           | Custom fetch                                     |
+| Method              | Description                  |
+| ------------------- | ---------------------------- |
+| **static** getByKey | Get DataBase instance by key |
+| on                  | Listen to event              |
+| once                | Listen to event once         |
+| off                 | Stop listening to event      |
+| connect             | Init connection              |
+| disconnect          | Close connection             |
+| getRepository       | Get repository of a table    |
+| find                | Find all rows in a table     |
+| findOne             | Find one row in a table      |
+| insert              | Insert a row in a table      |
+| update              | Update a row in a table      |
+| delete              | Delete a row in a table      |
+| count               | Count rows in a table        |
 
 ## Attributes
 
-| Attribute              | Description                        |
-| ---------------------- | ---------------------------------- |
-| isConnected            | Connection status                  |
-| host                   | Host name                          |
-| port                   | Port number                        |
-| user                   | User name                          |
-| database               | Database name                      |
-| name                   | Database key name                  |
-| **_static_** instances | Object with all DataBase instances |
+| Attribute      | Description                    |
+| -------------- | ------------------------------ |
+| **static** all | List of all DataBase instances |
+| isConnected    | Connection status              |
+| dataSource     | Data source                    |
+| key            | Database key                   |
+| name           | Database name                  |
+| host           | Host name                      |
+| port           | Port number                    |
+| user           | User name                      |
 
 ## Events
 

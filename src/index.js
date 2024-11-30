@@ -57,12 +57,12 @@ class DataBase {
         DataBase.#instances.set(this.#key, this);
     }
 
-    get host() {
-        return this.#dataSource.options.host;
-    }
-
     get name() {
         return this.#dataSource.options.database;
+    }
+
+    get host() {
+        return this.#dataSource.options.host;
     }
 
     get port() {
@@ -71,10 +71,6 @@ class DataBase {
 
     get user() {
         return this.#dataSource.options.username;
-    }
-
-    get database() {
-        return this.#dataSource.options.database;
     }
 
     get isConnected() {

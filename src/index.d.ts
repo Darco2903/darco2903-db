@@ -1,7 +1,7 @@
-import orm, { EntitySchema } from "typeorm";
+import orm, { EntitySchema as Table, ObjectLiteral } from "typeorm";
 import { InsertResult } from "./types";
 
-export { EntitySchema as Table, orm };
+export { Table, orm };
 
 type DataBaseConfig = {
     type: orm.DatabaseType;
@@ -44,14 +44,13 @@ export class DataBase {
      *     database: "my_db",
      * })
      */
-    constructor(config: DataBaseConfig): DataBase;
+    constructor(config: DataBaseConfig);
 
     get key(): string;
     get name(): string;
     get host(): string;
     get port(): number;
     get user(): string;
-    get database(): string;
     get dataSource(): orm.DataSource;
 
     /**
@@ -65,14 +64,14 @@ export class DataBase {
      * @returns {Promise<void>}
      * @throws {Error}
      */
-    async connect(): Promise<void>;
+    connect(): Promise<void>;
 
     /**
      * @description Disconnect from database.
      * @returns {Promise<void>}
      * @throws {Error}
      */
-    async disconnect(): Promise<void>;
+    disconnect(): Promise<void>;
 
     on(event: DBEvents, listener: () => void): void;
     once(event: DBEvents, listener: () => void): void;
@@ -89,22 +88,22 @@ export class DataBase {
      * @param {string} repoName The reponame where to look.
      * @param {orm.FindManyOptions<orm.ObjectLiteral>} query The query to search for.
      */
-    async find(repoName: string, query: orm.FindManyOptions<orm.ObjectLiteral>): Promise<orm.ObjectLiteral[]>;
+    find(repoName: string, query: orm.FindManyOptions<orm.ObjectLiteral>): Promise<orm.ObjectLiteral[]>;
 
     /**
      * @description Fetch one document by field value.
      * @param {string} repoName The reponame where to look.
      * @param {orm.FindOneOptions<orm.ObjectLiteral>} query The query to search for.
      */
-    async findOne(repoName: string, query: orm.FindOneOptions<orm.ObjectLiteral>): Promise<orm.ObjectLiteral | null>;
+    findOne(repoName: string, query: orm.FindOneOptions<orm.ObjectLiteral>): Promise<orm.ObjectLiteral | null>;
 
     /**
      * @description Insert a new document.
      * @param {string} repoName The reponame where to insert.
      * @param {orm.ObjectLiteral} query The query to insert.
      */
-    // async insert(repoName: string, query: ObjectLiteral): Promise<orm.InsertResult>;
-    async insert(repoName: string, query: ObjectLiteral): Promise<InsertResult>;
+    //  insert(repoName: string, query: ObjectLiteral): Promise<orm.InsertResult>;
+    insert(repoName: string, query: ObjectLiteral): Promise<InsertResult>;
 
     /**
      * @description Update a document by field value.
@@ -112,19 +111,19 @@ export class DataBase {
      * @param {orm.FindOptionsWhere<orm.ObjectLiteral>} query The query to search for.
      * @param {orm.ObjectLiteral} data The data to update.
      */
-    async update(repoName: string, query: orm.FindOptionsWhere<orm.ObjectLiteral>, data: orm.ObjectLiteral): Promise<orm.UpdateResult>;
+    update(repoName: string, query: orm.FindOptionsWhere<orm.ObjectLiteral>, data: orm.ObjectLiteral): Promise<orm.UpdateResult>;
 
     /**
      * @description Delete a document by field value.
      * @param {string} repoName The reponame where to delete.
      * @param {orm.FindOptionsWhere<orm.ObjectLiteral>} query The query to search for.
      */
-    async delete(repoName: string, query: orm.FindOptionsWhere<orm.ObjectLiteral>): Promise<orm.DeleteResult>;
+    delete(repoName: string, query: orm.FindOptionsWhere<orm.ObjectLiteral>): Promise<orm.DeleteResult>;
 
     /**
      * @description Count documents by field value.
      * @param {string} repoName The reponame where to count.
      * @param {orm.FindManyOptions<orm.ObjectLiteral>} query The query to search for.
      */
-    async count(repoName: string, query: orm.FindManyOptions<orm.ObjectLiteral>): Promise<number>;
+    count(repoName: string, query: orm.FindManyOptions<orm.ObjectLiteral>): Promise<number>;
 }
