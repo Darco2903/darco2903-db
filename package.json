@@ -1,6 +1,6 @@
 {
     "name": "darco2903-db",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "Darco2903 DataBase Module",
     "main": "index.js",
     "scripts": {},
