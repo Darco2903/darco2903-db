@@ -73,6 +73,12 @@ export class DataBase {
      */
     disconnect(): Promise<void>;
 
+    /**
+     * @description Check if database connection is established.
+     * @returns {Promise<boolean>}
+     */
+    checkConnection(): Promise<boolean>;
+
     on(event: DBEvents, listener: () => void): void;
     once(event: DBEvents, listener: () => void): void;
     off(event: DBEvents, listener: () => void): void;

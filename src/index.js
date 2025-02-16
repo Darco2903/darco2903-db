@@ -93,6 +93,23 @@ class DataBase {
         });
     }
 
+    async checkConnection() {
+        let ok = this.isConnected;
+        if (ok) {
+            ok = await this.dataSource
+                .query("SELECT VERSION()")
+                .then(() => true)
+                .catch(async (err) => {
+                    await this.disconnect();
+                });
+        }
+
+        if (!ok) {
+            await this.connect().catch((err) => {});
+        }
+        return this.isConnected;
+    }
+
     on(event, listener) {
         this.#eventEmitter.on(event, listener);
     }

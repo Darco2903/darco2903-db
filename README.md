@@ -87,6 +87,7 @@ const db = new DataBase({ type, host, port, user, password, database, tables, sy
 | off                 | Stop listening to event      |
 | connect             | Init connection              |
 | disconnect          | Close connection             |
+| checkConnection     | Check connection status      |
 | getRepository       | Get repository of a table    |
 | find                | Find all rows in a table     |
 | findOne             | Find one row in a table      |

@@ -1,6 +1,6 @@
 {
     "name": "darco2903-db",
-    "version": "2.0.1",
+    "version": "2.1.0",
     "description": "Darco2903 DataBase Module",
     "main": "index.js",
     "scripts": {},
@@ -15,6 +15,6 @@
     },
     "homepage": "https://github.com/Darco2903/darco2903-db#readme",
     "dependencies": {
-        "typeorm": "^0.3.15"
+        "typeorm": "^0.3.20"
     }
 }
