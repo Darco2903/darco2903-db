@@ -95,6 +95,8 @@ const db = new DataBase({ type, host, port, user, password, database, tables, sy
 | update              | Update a row in a table      |
 | delete              | Delete a row in a table      |
 | count               | Count rows in a table        |
+| increment           | increment a field            |
+| decrement           | decrement a field            |
 
 ## Attributes
 

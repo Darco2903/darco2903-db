@@ -39,7 +39,9 @@ class DataBase {
 
         this.#key = `${host}:${port}/${database}`;
 
-        if (DataBase.#instances.has(this.#key)) return DataBase.#instances.get(this.#key);
+        if (DataBase.#instances.has(this.#key)) {
+            return DataBase.#instances.get(this.#key);
+        }
 
         this.#initConn = false;
         this.#eventEmitter = new EventEmitter();
@@ -78,7 +80,9 @@ class DataBase {
     }
 
     async connect() {
-        if (this.isConnected || this.#initConn) throw new Error("Already connected to database");
+        if (this.isConnected || this.#initConn) {
+            throw new Error("Already connected to database");
+        }
         this.#initConn = true;
         return this.#dataSource
             .initialize()
@@ -87,7 +91,9 @@ class DataBase {
     }
 
     async disconnect() {
-        if (!this.#dataSource.isInitialized) throw new Error("Not connected to database");
+        if (!this.#dataSource.isInitialized) {
+            throw new Error("Not connected to database");
+        }
         return this.#dataSource.destroy().then(() => {
             this.#eventEmitter.emit("disconnect");
         });
@@ -123,8 +129,11 @@ class DataBase {
     }
 
     #checkConnection() {
-        if (!this.isConnected) throw new Error("Not connected to database");
-        else if (this.#initConn) throw new Error("Database is initializing");
+        if (!this.isConnected) {
+            throw new Error("Not connected to database");
+        } else if (this.#initConn) {
+            throw new Error("Database is initializing");
+        }
     }
 
     async #catchConnectionError(err) {
@@ -168,6 +177,16 @@ class DataBase {
     async count(repoName, query = {}) {
         this.#checkConnection();
         return this.getRepository(repoName).count(query).catch(this.#catchConnectionError.bind(this));
+    }
+
+    async increment(repoName, field, query = {}, value = 1) {
+        this.#checkConnection();
+        return this.getRepository(repoName).increment(query, field, value).catch(this.#catchConnectionError.bind(this));
+    }
+
+    async decrement(repoName, field, query = {}, value = 1) {
+        this.#checkConnection();
+        return this.getRepository(repoName).decrement(query, field, value).catch(this.#catchConnectionError.bind(this));
     }
 }
 

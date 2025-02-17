@@ -132,4 +132,22 @@ export class DataBase {
      * @param {orm.FindManyOptions<orm.ObjectLiteral>} query The query to search for.
      */
     count(repoName: string, query: orm.FindManyOptions<orm.ObjectLiteral>): Promise<number>;
+
+    /**
+     * @description Increment a field value.
+     * @param {string} repoName The reponame where to increment.
+     * @param {string} field The field to increment.
+     * @param {orm.FindOptionsWhere<orm.ObjectLiteral>} query The query to search for.
+     * @param {number} value The value to increment.
+     */
+    increment(repoName: string, field: string, query?: orm.FindOptionsWhere<orm.ObjectLiteral>, value?: number): Promise<orm.UpdateResult>;
+
+    /**
+     * @description Decrement a field value.
+     * @param {string} repoName The reponame where to decrement.
+     * @param {string} field The field to decrement.
+     * @param {orm.FindOptionsWhere<orm.ObjectLiteral>} query The query to search for.
+     * @param {number} value The value to decrement.
+     */
+    decrement(repoName: string, field: string, query?: orm.FindOptionsWhere<orm.ObjectLiteral>, value?: number): Promise<orm.UpdateResult>;
 }
